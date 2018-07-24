@@ -1,6 +1,7 @@
 # Android Permissions Fudi quickly
 
 ### by Romell Domínguez
+[![](snapshot/icono.png)](https://www.romellfudi.com/)
 
 First Android need confirmation by user from version 6 , its fot that create a sample how build a Adroid permission library (jar or aar file):
 
