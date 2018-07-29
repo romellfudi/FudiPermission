@@ -100,8 +100,8 @@ add dependency into app project, use only one to reject conflict:
 dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     //compile project(':permission')
-    //compile(name: 'FudiPermission', ext: 'aar') // jar
-   compile files('libs/FudiPermission.jar') // aar
+    //compile(name: 'FudiPermission', ext: 'aar')  // aar
+   compile files('libs/FudiPermission.jar') // jar
 }
 ```
 
