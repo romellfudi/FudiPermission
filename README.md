@@ -1,4 +1,4 @@
-# Android Permissions Fudi quickly
+# Fudi Android Permissions quickly
 
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
