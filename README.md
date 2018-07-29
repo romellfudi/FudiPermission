@@ -62,24 +62,32 @@ task createJar(type: Copy) {
 
 createJar.dependsOn(deleteJar, build)
 ```
+
 Run the task via gradle:
+<style>
+img[src*='#center'] { 
+    width:500px;
+    display: block;
+    margin: auto;
+}
+</style>
 
-![center](snapshot/a.png)
+![center](snapshot/a.png#center)
 
-![center](snapshot/c.png)
+![center](snapshot/c.png#center)
 
 After you run the task, you should have FudiPermission.jar into libs:
 
-![center](snapshot/g.png)
+![center](snapshot/g.png#center)
 
 ### Build library *.aar:
 Copy aar from build/outputs directory into libs directory from main app:
 
-![center](snapshot/f.png)
+![center](snapshot/f.png#center)
 
 In your app module, you should have FudiPermission.aar:
 
-![center](snapshot/d.png)
+![center](snapshot/d.png#center)
 
 
 ## Import library:
