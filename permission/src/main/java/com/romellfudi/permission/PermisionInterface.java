@@ -1,4 +1,4 @@
-package fudi.freddy.permission;
+package com.romellfudi.permission;
 
 import java.util.ArrayList;
 

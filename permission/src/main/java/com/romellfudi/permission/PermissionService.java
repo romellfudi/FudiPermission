@@ -1,4 +1,4 @@
-package fudi.freddy.permission;
+package com.romellfudi.permission;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

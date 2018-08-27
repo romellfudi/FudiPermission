@@ -1,4 +1,4 @@
-package fudi.freddy.permissionservice;
+package com.romellfudi.permissionservice;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import fudi.freddy.permission.PermissionService;
+import com.romellfudi.permission.PermissionService;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
