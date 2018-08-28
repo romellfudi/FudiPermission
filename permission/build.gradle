@@ -1,12 +1,37 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'permission'
+
+    publishedGroupId = 'com.romellfudi.permission'
+    libraryName = 'FudiPermission'
+    artifact = 'permission'
+
+    libraryDescription = 'Android library for multi-permission requests on Android'
+
+    siteUrl = 'https://romellfudi.github.io/FudiPermission'
+    gitUrl = 'https://romellfudi.github.io/FudiPermission.git'
+
+    libraryVersion = '1.0.a'
+
+    developerId = 'romellfudi'
+    developerName = 'Romell Dominguez'
+    developerEmail = 'romllz489@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -35,5 +60,8 @@ task createJar(type: Copy) {
     rename('classes.jar', 'FudiPermission.jar')
 }
 
-
 createJar.dependsOn(deleteJar, build)
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
