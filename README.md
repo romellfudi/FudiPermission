@@ -9,9 +9,7 @@ Add the following in your app's `build.gradle` file:
 
 ```groovy
 repositories {
-    maven {
-        url 'https://dl.bintray.com/romllz489/maven/'
-    }
+    jcenter()
 }
 dependencies {
     compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
