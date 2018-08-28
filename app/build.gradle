@@ -29,9 +29,9 @@ repositories {
 }
 dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
-//    compile project(':permission')
+//    compile project(':fudi-permission')
 //    compile(name: 'FudiPermission-1.0.a', ext: 'aar')
 //    compile files('libs/FudiPermission-1.0.a.jar')
-    compile 'com.romellfudi.permission:permission:1.0.a'
+    compile 'com.romellfudi.permission:fudi-permission:1.0.a'
 
 }
