@@ -3,6 +3,22 @@
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
+`latestVersion` es 1.0.a
+
+Agregar en tu archivo `build.gradle` del proyecto Android:
+
+```groovy
+repositories {
+    maven {
+        url 'https://dl.bintray.com/romllz489/maven/'
+    }
+}
+dependencies {
+    compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
+
+}
+```
+
 Primero Android a partir de la versión 6 necesita consultarle al usuario el permiso de componentes y servisios , acá veremos cómo construir una libreria Android para permmisos (jar or aar file):
 
 Los permisos necesarios a consultar los listo (*ver needPermissions.txt*):
