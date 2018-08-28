@@ -67,14 +67,14 @@ Create 2 task and excute the gradle task
 
 ```gradlew
 task deleteJar(type: Delete) {
-    delete 'libs/FudiPermission.jar'
+    delete 'libs/fudi-permission-1.0.a.jar'
 }
 
 task createJar(type: Copy) {
     from('build/intermediates/bundles/debug/') // release
     into('../app/libs')
     include('classes.jar')
-    rename('classes.jar', 'FudiPermission.jar')
+    rename('classes.jar', 'fudi-permission-1.0.a.jar')
 }
 
 createJar.dependsOn(deleteJar, build)
@@ -102,7 +102,7 @@ Copy aar from build/outputs directory into libs directory from main app:
 
 ![center](snapshot/f.png#center)
 
-In your app module, you should have FudiPermission.aar:
+In your app module, you should have fudi-permission-1.0.a.aar:
 
 ![center](snapshot/d.png#center)
 
@@ -123,10 +123,10 @@ add dependency into app project, use only one to reject conflict:
 
 ```gradle
 dependencies {
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    //compile project(':permission')
-    //compile(name: 'FudiPermission', ext: 'aar')  // aar
-   compile files('libs/FudiPermission.jar') // jar
+//    compile project(':fudi-permission')
+//    compile(name: 'fudi-permission-1.0.a', ext: 'aar')
+//    compile files('libs/fudi-permission-1.0.a.jar')
+    implementation 'com.romellfudi.permission:fudi-permission:1.0.a'
 }
 ```
 

@@ -50,14 +50,14 @@ dependencies {
 }
 
 task deleteJar(type: Delete) {
-    delete 'libs/FudiPermission.jar'
+    delete 'libs/fudi-permission-1.0.a.jar'
 }
 
 task createJar(type: Copy) {
     from('build/intermediates/bundles/debug/') // release
     into('../app/libs')
     include('classes.jar')
-    rename('classes.jar', 'FudiPermission.jar')
+    rename('classes.jar', 'fudi-permission-1.0.a.jar')
 }
 
 createJar.dependsOn(deleteJar, build)
