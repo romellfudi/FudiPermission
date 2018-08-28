@@ -1,1 +1,1 @@
-include ':app', ':permission'
+include ':app', ':fudi-permission'

@@ -3,11 +3,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'permission'
+    bintrayName = 'fudi-permission'
 
     publishedGroupId = 'com.romellfudi.permission'
     libraryName = 'FudiPermission'
-    artifact = 'permission'
+    artifact = 'fudi-permission'
 
     libraryDescription = 'Android library for multi-permission requests on Android'
 
