@@ -3,6 +3,23 @@
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
+`latestVersion` is 1.0.a
+
+Add the following in your app's `build.gradle` file:
+
+```groovy
+repositories {
+    maven {
+        url 'https://dl.bintray.com/romllz489/maven/'
+    }
+}
+dependencies {
+    compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
+
+}
+```
+
+
 First Android need confirmation by user from version 6 , its fot that create a sample how build a Adroid permission library (jar or aar file):
 
 Permissions that you have deploy (needPermissions.txt):
