@@ -1,4 +1,9 @@
-# Fudi Android Permissions quickly [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23) [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)  [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/romellfudi/FudiPermission/blob/master/LICENSE) 
+# Fudi Android Permissions quickly
+
+ [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
+ [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/romellfudi/FudiPermission/blob/master/LICENSE)
+[![Bintray](https://img.shields.io/bintray/v/yshrsmz/maven/simplepreferences.svg)](https://bintray.com/romllz489/maven/fudi-permission) 
 
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
