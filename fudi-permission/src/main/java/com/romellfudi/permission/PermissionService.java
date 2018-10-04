@@ -1,5 +1,6 @@
 package com.romellfudi.permission;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,28 +10,30 @@ import android.preference.PreferenceManager;
 import java.util.ArrayList;
 
 /**
- *
  * @author Romell Dominguez
  * @version 1.0.a 23/02/2017
  * @since 1.0
  */
 
-public class PermissionService {
+public class PermissionService implements PermisionServiceInterface {
 
     private SharedPreferences sharedPreferences;
     private ArrayList<String> permissionsToRequest;
     private ArrayList<String> permissionsRejected;
+    private PermisionServiceInterface permisionServiceInterface;
 
     private Activity context;
     public static int requestCode = 999;
 
     public PermissionService(Activity context) {
         this.context = context;
+        this.permisionServiceInterface = this;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     public void request(String[] permissionsArray, final Callback callback) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (permisionServiceInterface.getBuildSDK() >= Build.VERSION_CODES.M) {
             ArrayList<String> permissions = new ArrayList<>();
             for (String perm : permissionsArray)
                 permissions.add(perm);
@@ -38,11 +41,15 @@ public class PermissionService {
             permissionsRejected = blockPermissions(permissions);
             if (permissionsToRequest.size() > 0) {
                 context.requestPermissions(permissionsToRequest.toArray(new String[permissionsToRequest.size()]), requestCode);
-                for (String perm : permissions)
-                    sharedPreferences.edit().putBoolean(perm, false).apply();
+                for (String perm : permissions) {
+                    sharedPreferences.edit().putBoolean(perm, false);
+                    sharedPreferences.edit().apply();
+                }
             } else if (permissionsRejected.size() > 0) {
-                for (String perm : permissionsRejected)
-                    sharedPreferences.edit().putBoolean(perm, true).apply();
+                for (String perm : permissionsRejected) {
+                    sharedPreferences.edit().putBoolean(perm, false);
+                    sharedPreferences.edit().apply();
+                }
                 callback.onRefuse(permissionsRejected);
             } else
                 callback.onFinally();
@@ -51,17 +58,19 @@ public class PermissionService {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     private boolean hasPermission(String permission) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (permisionServiceInterface.getBuildSDK() >= Build.VERSION_CODES.M)
             return (context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
         return true;
     }
 
     private ArrayList<String> missAllowPermissions(ArrayList<String> permissions) {
         ArrayList<String> result = new ArrayList<String>();
-        for (String perm : permissions)
+        for (String perm : permissions) {
             if (!hasPermission(perm) && sharedPreferences.getBoolean(perm, true))
                 result.add(perm);
+        }
         return result;
     }
 
@@ -71,6 +80,11 @@ public class PermissionService {
             if (!hasPermission(perm) && !sharedPreferences.getBoolean(perm, true))
                 result.add(perm);
         return result;
+    }
+
+    @Override
+    public int getBuildSDK() {
+        return Build.VERSION.SDK_INT;
     }
 
 

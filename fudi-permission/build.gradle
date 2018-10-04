@@ -44,9 +44,16 @@ android {
     lintOptions {
         abortOnError false
     }
+    testOptions{
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
 }
 
 task deleteJar(type: Delete) {
