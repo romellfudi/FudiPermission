@@ -64,47 +64,6 @@ STORAGE
     WRITE_EXTERNAL_STORAGE
 ```
 
-## Create library 
-
-### Build library *.jar:
-Creamos dos tareas para la construcción y exportación dentro del gradle del proyecto
-
-```gradlew
-task deleteJar(type: Delete) {
-    delete 'libs/fudi-permission:1.0.a.jar'
-}
-
-task createJar(type: Copy) {
-    from('build/intermediates/bundles/debug/') // release
-    into('../app/libs')
-    include('classes.jar')
-    rename('classes.jar', 'fudi-permission:1.0.a.jar')
-}
-
-createJar.dependsOn(deleteJar, build)
-```
-
-Corremos la tarea vía gradle:
-
-![center](snapshot/a.png#center)
-
-![center](snapshot/c.png#center)
-
-Después de correr las tareas, deberiamos tener **'FudiPermission.jar'** en la carpeta libs:
-
-![center](snapshot/g.png#center)
-
-### Build library *.aar:
-Las librerias aar permiten extraer archivos xml internos de la libraría sin ninguna restrinción.
-Copiar el archivo aar desde la carpeta build/outputs a la carpeta libs dentro de app/main:
-
-![center](snapshot/f.png#center)
-
-En tu módulo se debe tener el siguiente esquema:
-
-![center](snapshot/d.png#center)
-
-
 ## Import library:
 
 En caso usar componentes aar, indicas en el gradle, mediante las las sentencias:

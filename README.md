@@ -65,46 +65,6 @@ STORAGE
     WRITE_EXTERNAL_STORAGE
 ```
 
-## Create library 
-
-### Build library *.jar:
-Create 2 task and excute the gradle task
-
-```gradlew
-task deleteJar(type: Delete) {
-    delete 'libs/fudi-permission-1.0.a.jar'
-}
-
-task createJar(type: Copy) {
-    from('build/intermediates/bundles/debug/') // release
-    into('../app/libs')
-    include('classes.jar')
-    rename('classes.jar', 'fudi-permission-1.0.a.jar')
-}
-
-createJar.dependsOn(deleteJar, build)
-```
-
-Run the task via gradle:
-
-![center](snapshot/a.png#center)
-
-![center](snapshot/c.png#center)
-
-After you run the task, you should have FudiPermission.jar into libs:
-
-![center](snapshot/g.png#center)
-
-### Build library *.aar:
-Copy aar from build/outputs directory into libs directory from main app:
-
-![center](snapshot/f.png#center)
-
-In your app module, you should have fudi-permission-1.0.a.aar:
-
-![center](snapshot/d.png#center)
-
-
 ## Import library:
 
 If you use aar component you need add this lines into gradle:
