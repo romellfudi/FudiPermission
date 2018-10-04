@@ -61,7 +61,7 @@ public class FudiPermisionTest {
     @Test
     public void requestLessM() {
         String[] permissions =
-                new String[]{ACCESS_FINE_LOCATION, CAMERA,WRITE_EXTERNAL_STORAGE};
+                new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M - 1);
         permissionService.request(permissions, callback);
         verify(callback).onFinally();
@@ -70,17 +70,18 @@ public class FudiPermisionTest {
     @Test
     public void request3Permissions3Accepted() {
         final String[] permissions =
-                new String[]{ACCESS_FINE_LOCATION, CAMERA,WRITE_EXTERNAL_STORAGE};
+                new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M);
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
         doAnswer(new Answer<Object>() {
-            int i=0;
+            int i = 0;
+
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 i++;
-                if (i==permissions.length)
+                if (i == permissions.length)
                     // 0 accepted, 1 refuse
                     callback.handler(permissions, new int[]{0, 0, 0});
                 return null;
@@ -93,17 +94,18 @@ public class FudiPermisionTest {
     @Test
     public void request3Permissions2Accepted() {
         final String[] permissions =
-                new String[]{ACCESS_FINE_LOCATION, CAMERA,WRITE_EXTERNAL_STORAGE};
+                new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M);
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
         doAnswer(new Answer<Object>() {
-            int i=0;
+            int i = 0;
+
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 i++;
-                if (i==permissions.length)
+                if (i == permissions.length)
                     // 0 accepted, 1 refuse
                     callback.handler(permissions, new int[]{0, 1, 0});
                 return null;
@@ -114,23 +116,24 @@ public class FudiPermisionTest {
         verify(callback).onRefuse(refusePermissionsCaptor.capture());
 
         ArrayList<String> refusePermissions = refusePermissionsCaptor.getValue();
-        assertThat(refusePermissions.get(0),is(equalTo(CAMERA)));
+        assertThat(refusePermissions.get(0), is(equalTo(CAMERA)));
     }
 
     @Test
     public void request3Permissions3Reject() {
         final String[] permissions =
-                new String[]{ACCESS_FINE_LOCATION, CAMERA,WRITE_EXTERNAL_STORAGE};
+                new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M);
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
         doAnswer(new Answer<Object>() {
-            int i=0;
+            int i = 0;
+
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 i++;
-                if (i==permissions.length)
+                if (i == permissions.length)
                     // 0 accepted, 1 refuse
                     callback.handler(permissions, new int[]{1, 1, 1});
                 return null;
@@ -141,8 +144,8 @@ public class FudiPermisionTest {
         verify(callback).onRefuse(refusePermissionsCaptor.capture());
 
         ArrayList<String> refusePermissions = refusePermissionsCaptor.getValue();
-        assertThat(refusePermissions.get(0),is(equalTo(ACCESS_FINE_LOCATION)));
-        assertThat(refusePermissions.get(1),is(equalTo(CAMERA)));
-        assertThat(refusePermissions.get(2),is(equalTo(WRITE_EXTERNAL_STORAGE)));
+        assertThat(refusePermissions.get(0), is(equalTo(ACCESS_FINE_LOCATION)));
+        assertThat(refusePermissions.get(1), is(equalTo(CAMERA)));
+        assertThat(refusePermissions.get(2), is(equalTo(WRITE_EXTERNAL_STORAGE)));
     }
 }
