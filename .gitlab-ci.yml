@@ -31,5 +31,5 @@ build_test:
     - ./gradlew assembleDebug testDebugUnitTest -p fudi-permission
   artifacts:
     paths:
-    - fudi-store/build/outputs/
-    - fudi-store/build/reports/
+    - fudi-permission/build/outputs/
+    - fudi-permission/build/reports/
