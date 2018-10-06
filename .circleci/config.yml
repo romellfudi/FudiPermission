@@ -24,9 +24,9 @@ jobs:
           name: Run Tests
           command: ./gradlew assembleDebug lint testDebugUnitTest -p fudi-permission
       - store_artifacts:
-          path: app/build/reports
+          path: fudi-permission/build/reports
           destination: reports
       - store_test_results:
-          path: app/build/test-results
+          path: fudi-permission/build/test-results
 
 #
