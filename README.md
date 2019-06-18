@@ -22,6 +22,7 @@ repositories {
 }
 dependencies {
     compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
+    compile 'com.romellfudi.permission:fudi-permission-kotlin:${latestVersion}'
 
 }
 ```
@@ -109,6 +110,7 @@ import static android.Manifest.permission.CAMERA;
 Build an callback object to catch the rsponse for user. If have 1 or more refuse permissions, *onRefuse method* activate, otherwise *onFinally*
 
 ```java
+// java
 private PermissionService.Callback callback = new PermissionService.Callback() {
         @Override
         public void onRefuse(ArrayList<String> RefusePermissions) {
@@ -121,21 +123,55 @@ private PermissionService.Callback callback = new PermissionService.Callback() {
         }
     };
 ```
+
+```kotlin
+// kotlin
+private val callback = object : PermisionInterface {
+        override fun onRefuse(RefusePermissions: ArrayList<String>) {
+            Toast.makeText(baseContext,
+                    "Have to allow all permissions",
+                    Toast.LENGTH_SHORT).show()
+
+            Handler().postDelayed({ finish() }, 2000)
+        }
+
+        override fun onFinally() {
+            initController()
+        }
+    }
+```
+
 Invoke service inside at Activity/onCreate method :
 
 ```java
+// java
 new PermissionService(this).request(
                 new String[]{ACCESS_FINE_LOCATION, CAMERA},
                 callback);
 ```
 
+```kotlin
+// kotlin
+PermissionService(this).request(
+                arrayOf(ACCESS_FINE_LOCATION, CAMERA), callback)
+```
+
 Override onRequestPermissions method from Activity class, note if necessary use if-case sentence:
 
 ```java
+// java
 @Override
 public void onRequestPermissionsResult(int requestCode, 
             @NonNull String[] permissions, @NonNull int[] grantResults) {
             callback.handler(permissions, grantResults);
+    }
+```
+
+```kotlin
+// kotlin
+override fun onRequestPermissionsResult(requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray) {
+        PermissionService.handler(callback,permissions, grantResults)
     }
 ```
 
