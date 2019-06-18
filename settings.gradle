@@ -1,1 +1,1 @@
-include ':app', ':fudi-permission'
+include ':app', ':fudi-permission',':app-kotlin', ':fudi-permission-kotlin'
