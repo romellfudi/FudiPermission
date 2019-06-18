@@ -36,4 +36,5 @@ jobs:
           destination: reports
       - store_test_results:
           path: fudi-permission-kotlin/build/test-results
-          #
+
+#
