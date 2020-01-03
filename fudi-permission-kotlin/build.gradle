@@ -74,8 +74,8 @@ task createJar(type: Copy) {
 
 createJar.dependsOn(deleteJar, build)
 
-apply from: 'https://raw.githubusercontent.com/romellfudi/bintray/master/artifactory_bintray.gradle'
-apply from: 'https://raw.githubusercontent.com/romellfudi/bintray/master/artifactory_install.gradle'
+apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_bintray.gradle'
+apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_install.gradle'
 repositories {
     mavenCentral()
 }
