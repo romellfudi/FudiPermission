@@ -3,6 +3,7 @@
 [![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/romellfudi/FudiPermission/blob/master/LICENSE)
+[![](https://github.com/romellfudi/FudiPermission/workflows/Android%20CI/badge.svg)](https://github.com/romellfudi/FudiPermission/actions)
 [![Bintray](https://img.shields.io/bintray/v/romllz489/maven/fudi-annotation.svg)](https://bintray.com/romllz489/maven/fudi-permission) 
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Fudi%20Permisions-green.svg?style=flat )]( https://android-arsenal.com/details/1/7105 )
 [![Jitpack](https://jitpack.io/v/romellfudi/FudiPermission.svg)](https://jitpack.io/#romellfudi/FudiPermission)
@@ -84,10 +85,8 @@ add dependency into app project, use only one to reject conflict:
 
 ```gradle
 dependencies {
-//    compile project(':fudi-permission')
-//    compile(name: 'fudi-permission-1.0.a', ext: 'aar')
-//    compile files('libs/fudi-permission-1.0.a.jar')
-    implementation 'com.romellfudi.permission:fudi-permission:1.0.a'
+//    implementation(name: 'fudi-permission-1.0.a', ext: 'aar')
+//    implementation files('libs/fudi-permission-1.0.a.jar')
 }
 ```
 
