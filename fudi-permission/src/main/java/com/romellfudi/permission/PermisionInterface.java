@@ -10,6 +10,5 @@ import java.util.ArrayList;
  */
 
 public interface PermisionInterface {
-    void onRefuse(ArrayList<String> refusePermissions);
-    void onFinally();
+    void onResponse(ArrayList<String> refusePermissions);
 }

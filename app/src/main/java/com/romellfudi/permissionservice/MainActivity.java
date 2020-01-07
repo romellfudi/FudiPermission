@@ -1,21 +1,18 @@
 package com.romellfudi.permissionservice;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 import com.romellfudi.permission.PermissionService;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.CAMERA;
+import java.util.ArrayList;
 
 /**
- *
  * @author Romell Domínguez
  * @version 1.0.a 23/02/2017
  * @since 1.0
@@ -32,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null)
             initViews();
-        new PermissionService(this).request(
-                new String[]{ACCESS_FINE_LOCATION, CAMERA},
-                callback);
+        new PermissionService(this).request(callback);
     }
 
     private void initViews() {
@@ -43,11 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initController() {
         textView.setText("ToDo");
-        Toast.makeText(getBaseContext(), textView.getText().toString(), Toast.LENGTH_SHORT).show();
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                "ready", Snackbar.LENGTH_SHORT);
+        snackbar.getView().setBackgroundColor(ContextCompat
+                .getColor(getApplicationContext(), R.color.colorPrimary));
+        snackbar.show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         // In case have other permissions flow task
 //        if (requestCode == PermissionService.requestCode) {
         callback.handler(permissions, grantResults);
@@ -56,22 +56,22 @@ public class MainActivity extends AppCompatActivity {
 
     private PermissionService.Callback callback = new PermissionService.Callback() {
         @Override
-        public void onRefuse(ArrayList<String> RefusePermissions) {
-            Toast.makeText(getBaseContext(),
-                    "Have to allow all permissions",
-                    Toast.LENGTH_SHORT).show();
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            }, 2000);
-        }
-
-        @Override
-        public void onFinally() {
-            initController();
+        public void onResponse(ArrayList<String> refusePermissions) {
+            if (refusePermissions != null) {
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
+                        "Have to allow all permissions", Snackbar.LENGTH_SHORT);
+                snackbar.getView().setBackgroundColor(ContextCompat
+                        .getColor(getApplicationContext(), R.color.colorAccent));
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 1500);
+            } else {
+                initController();
+            }
         }
     };
 }

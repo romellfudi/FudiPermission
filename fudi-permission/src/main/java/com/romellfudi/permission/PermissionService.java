@@ -3,6 +3,7 @@ package com.romellfudi.permission;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -32,9 +33,19 @@ public class PermissionService implements PermisionServiceInterface {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    public void request(String[] permissionsArray, final Callback callback) {
+    public void request(final Callback callback) {
         if (permisionServiceInterface.getBuildSDK() >= Build.VERSION_CODES.M) {
             ArrayList<String> permissions = new ArrayList<>();
+            String[] permissionsArray = new String[0];
+            try {
+                PackageInfo info =
+                        this.context.getPackageManager()
+                                .getPackageInfo(this.context.getPackageName(),
+                                        PackageManager.GET_PERMISSIONS);
+                permissionsArray = info.requestedPermissions;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
             for (String perm : permissionsArray)
                 permissions.add(perm);
             permissionsToRequest = missAllowPermissions(permissions);
@@ -50,11 +61,11 @@ public class PermissionService implements PermisionServiceInterface {
                     sharedPreferences.edit().putBoolean(perm, false);
                     sharedPreferences.edit().apply();
                 }
-                callback.onRefuse(permissionsRejected);
+                callback.onResponse(permissionsRejected);
             } else
-                callback.onFinally();
+                callback.onResponse(null);
         } else
-            callback.onFinally();
+            callback.onResponse(null);
 
     }
 
@@ -94,10 +105,7 @@ public class PermissionService implements PermisionServiceInterface {
             for (int i = 0; i < grantResults.length; i++)
                 if (grantResults[i] != 0)
                     permissionsRejected.add(permissions[i]);
-            if (permissionsRejected.size() > 0)
-                onRefuse(permissionsRejected);
-            else
-                onFinally();
+            onResponse(permissionsRejected);
         }
     }
 
