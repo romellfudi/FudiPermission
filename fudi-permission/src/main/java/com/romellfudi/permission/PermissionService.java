@@ -24,6 +24,7 @@ public class PermissionService implements PermisionServiceInterface {
     private PermisionServiceInterface permisionServiceInterface;
 
     private Activity context;
+    private PackageInfo info;
     public static int requestCode = 999;
 
     public PermissionService(Activity context) {
@@ -36,16 +37,7 @@ public class PermissionService implements PermisionServiceInterface {
     public void request(final Callback callback) {
         if (permisionServiceInterface.getBuildSDK() >= Build.VERSION_CODES.M) {
             ArrayList<String> permissions = new ArrayList<>();
-            String[] permissionsArray = new String[0];
-            try {
-                PackageInfo info =
-                        this.context.getPackageManager()
-                                .getPackageInfo(this.context.getPackageName(),
-                                        PackageManager.GET_PERMISSIONS);
-                permissionsArray = info.requestedPermissions;
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
+            String[] permissionsArray = permisionServiceInterface.getPermissions();
             for (String perm : permissionsArray)
                 permissions.add(perm);
             permissionsToRequest = missAllowPermissions(permissions);
@@ -98,6 +90,19 @@ public class PermissionService implements PermisionServiceInterface {
         return Build.VERSION.SDK_INT;
     }
 
+    @Override
+    public String[] getPermissions() {
+        String[] permissionsArray = new String[0];
+        try {
+            info = this.context.getPackageManager()
+                    .getPackageInfo(this.context.getPackageName(),
+                            PackageManager.GET_PERMISSIONS);
+            permissionsArray = info.requestedPermissions;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return permissionsArray;
+    }
 
     public static abstract class Callback implements PermisionInterface {
         public final void handler(String[] permissions, int[] grantResults) {

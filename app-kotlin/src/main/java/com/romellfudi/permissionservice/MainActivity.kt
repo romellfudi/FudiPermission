@@ -1,18 +1,15 @@
 package com.romellfudi.permissionservice
 
-import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-
-import java.util.ArrayList
-
 import com.romellfudi.permission.PermissionService
-
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.CAMERA
-import android.view.View
+import java.util.*
 
 /**
  *
@@ -26,17 +23,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textView: TextView
 
     private val callback = object : PermissionService.Callback() {
-        override fun onRefuse(refusePermissions: ArrayList<String>) {
-            Toast.makeText(baseContext,
-                    "Have to allow all permissions",
-                    Toast.LENGTH_SHORT).show()
-
-            Handler().postDelayed({ finish() }, 2000)
+        override fun onResponse(refusePermissions: ArrayList<String>?) {
+            if (refusePermissions != null) {
+                val snackbar = Snackbar.make(findViewById(android.R.id.content),
+                        "Have to allow all permissions", Snackbar.LENGTH_SHORT)
+                snackbar.view.setBackgroundColor(ContextCompat
+                        .getColor(applicationContext, R.color.colorAccent))
+                snackbar.show()
+                Handler().postDelayed({ finish() }, 1500)
+            } else
+                initController()
         }
 
-        override fun onFinally() {
-            initController()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null)
             initViews()
-        PermissionService(this).request(
-                arrayOf(ACCESS_FINE_LOCATION, CAMERA),
-                callback)
+        PermissionService(this).request(callback)
     }
 
     private fun initViews() {
@@ -56,7 +52,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initController() {
         textView.text = "ToDo"
-        Toast.makeText(baseContext, textView.text.toString(), Toast.LENGTH_SHORT).show()
+        val snackbar = Snackbar.make(findViewById(android.R.id.content),
+                "ready", Snackbar.LENGTH_SHORT)
+        snackbar.view.setBackgroundColor(ContextCompat
+                .getColor(applicationContext, R.color.colorPrimary))
+        snackbar.show()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

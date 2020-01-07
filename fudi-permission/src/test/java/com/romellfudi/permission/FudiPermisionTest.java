@@ -2,6 +2,7 @@ package com.romellfudi.permission;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -63,18 +64,20 @@ public class FudiPermisionTest {
         String[] permissions =
                 new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M - 1);
-        permissionService.request(permissions, callback);
-        verify(callback).onFinally();
+        permissionService.request(callback);
+        verify(callback).onResponse(refusePermissionsCaptor.capture());
     }
 
     @Test
-    public void request3Permissions3Accepted() {
+    public void request3Permissions3Accepted() throws PackageManager.NameNotFoundException {
         final String[] permissions =
                 new String[]{ACCESS_FINE_LOCATION, CAMERA, WRITE_EXTERNAL_STORAGE};
         when(permisionServiceInterface.getBuildSDK()).thenReturn(Build.VERSION_CODES.M);
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
+        when(permisionServiceInterface.getPermissions()).thenReturn(permissions);
+
         doAnswer(new Answer<Object>() {
             int i = 0;
 
@@ -87,8 +90,8 @@ public class FudiPermisionTest {
                 return null;
             }
         }).when(editor).apply();
-        permissionService.request(permissions, callback);
-        verify(callback).onFinally();
+        permissionService.request(callback);
+        verify(callback).onResponse(refusePermissionsCaptor.capture());
     }
 
     @Test
@@ -99,6 +102,7 @@ public class FudiPermisionTest {
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
+        when(permisionServiceInterface.getPermissions()).thenReturn(permissions);
         doAnswer(new Answer<Object>() {
             int i = 0;
 
@@ -112,8 +116,8 @@ public class FudiPermisionTest {
             }
         }).when(editor).apply();
 
-        permissionService.request(permissions, callback);
-        verify(callback).onRefuse(refusePermissionsCaptor.capture());
+        permissionService.request(callback);
+        verify(callback).onResponse(refusePermissionsCaptor.capture());
 
         ArrayList<String> refusePermissions = refusePermissionsCaptor.getValue();
         assertThat(refusePermissions.get(0), is(equalTo(CAMERA)));
@@ -127,6 +131,7 @@ public class FudiPermisionTest {
         when(activity.checkSelfPermission(any(String.class))).thenReturn(PackageManager.PERMISSION_DENIED);
         when(sharedPreferences.getBoolean(any(String.class), eq(true))).thenReturn(true);
         when(sharedPreferences.edit()).thenReturn(editor);
+        when(permisionServiceInterface.getPermissions()).thenReturn(permissions);
         doAnswer(new Answer<Object>() {
             int i = 0;
 
@@ -140,8 +145,8 @@ public class FudiPermisionTest {
             }
         }).when(editor).apply();
 
-        permissionService.request(permissions, callback);
-        verify(callback).onRefuse(refusePermissionsCaptor.capture());
+        permissionService.request(callback);
+        verify(callback).onResponse(refusePermissionsCaptor.capture());
 
         ArrayList<String> refusePermissions = refusePermissionsCaptor.getValue();
         assertThat(refusePermissions.get(0), is(equalTo(ACCESS_FINE_LOCATION)));

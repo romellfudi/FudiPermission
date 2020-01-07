@@ -66,8 +66,8 @@ class FudiPermisionTest {
     @Test
     fun requestLessM() {
         every { permisionServiceInterface.buildSDK } returns Build.VERSION_CODES.M - 1
-        permissionService.request(permissions, callback)
-        verify { callback.onFinally() }
+        permissionService.request(callback)
+        verify { callback.onResponse(capture(refusePemissions)) }
     }
 
     companion object {
@@ -82,9 +82,9 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(0, 0, 0), permissions)
         }
-        permissionService.request(permissions, callback)
+        permissionService.request(callback)
 
-        verify { callback.onFinally() }
+        verify { callback.onResponse(capture(refusePemissions)) }
     }
 
     @Test
@@ -95,8 +95,8 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(0, 1, 0), permissions)
         }
-        permissionService.request(permissions, callback)
-        verify { callback.onRefuse(capture(refusePemissions)) }
+        permissionService.request(callback)
+        verify { callback.onResponse(capture(refusePemissions)) }
 
         val refusePermissions = refusePemissions.captured
         assertThat(refusePermissions[0], `is`(equalTo(CAMERA)))
@@ -111,8 +111,8 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(1, 1, 1), permissions)
         }
-        permissionService.request(permissions, callback)
-        verify { callback.onRefuse(capture(refusePemissions)) }
+        permissionService.request(callback)
+        verify { callback.onResponse(capture(refusePemissions)) }
 
         val refusePermissions = refusePemissions.captured
         assertThat(refusePermissions[0], `is`(equalTo(ACCESS_FINE_LOCATION)))

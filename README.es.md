@@ -13,7 +13,7 @@
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
-`latestVersion` es 1.0.a
+`latestVersion` es 2.0.a
 
 Agregar en tu archivo `build.gradle` del proyecto Android:
 
@@ -22,7 +22,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
+    implementation 'com.romellfudi.permission:fudi-permission:${latestVersion}'
 
 }
 ```
@@ -31,111 +31,73 @@ Primero Android a partir de la versión 6 necesita consultarle al usuario el per
 
 Los permisos necesarios a consultar los listo (*ver needPermissions.txt*):
 
-```txt
-CALENDAR
-    READ_CALENDAR
-    WRITE_CALENDAR
-CAMERA
-    CAMERA
-CONTACTS
-    READ_CONTACTS
-    WRITE_CONTACTS
-    GET_ACCOUNTS
-LOCATION
-    ACCESS_FINE_LOCATION
-    ACCESS_COARSE_LOCATION
-MICROPHONE
-    RECORD_AUDIO
-PHONE
-    READ_PHONE_STATE
-    CALL_PHONE
-    READ_CALL_LOG
-    WRITE_CALL_LOG
-    ADD_VOICEMAIL
-    USE_SIP
-    PROCESS_OUTGOING_CALLS
-SENSORS
-    BODY_SENSORS
-SMS
-    SEND_SMS
-    RECEIVE_SMS
-    READ_SMS
-    RECEIVE_WAP_PUSH
-    RECEIVE_MMS
-STORAGE
-    READ_EXTERNAL_STORAGE
-    WRITE_EXTERNAL_STORAGE
-```
-
 ## Import library:
-
-En caso usar componentes aar, indicas en el gradle, mediante las las sentencias:
-
-```gradle
-repositories{
-    flatDir {
-        dirs 'libs'
-    }
-}
-```
-
+ 
 Agregamos la dependencia en nuestro módulo aplicativo, usar uno obviamente para no tener conflictos:
 
 ```gradle
 dependencies {
-//    implementation(name: 'fudi-permission-1.0.a', ext: 'aar')
-//    implementation files('libs/fudi-permission-1.0.a.jar')
+     implementation 'com.romellfudi.permission:fudi-permission:2.0.a' 
 }
 ```
 
 
 ## How use
-
-Agregamos los permisos que se requieran y este en el archivo adjunto de los permisos en nuestro app/manifest.xml:
-
-```xml
-<uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-```
-
-Importamos las variables de clases respectivamente para cada permisos:
-
-```java
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.CAMERA;
-```
-
+ 
 Construcción del callback de permisos. En caso el usuario rechace una o más, estas retornarán en el método *onRefuse method* , de lo contrario pasará a *onFinally*
 
 ```java
+// java
 private PermissionService.Callback callback = new PermissionService.Callback() {
         @Override
-        public void onRefuse(ArrayList<String> refusePermissions) {
+        public void onResponse(ArrayList<String> RefusePermissions) {
             // todo
-        }
-
-        @Override
-        public void onFinally() {
-            // todo
-        }
+        } 
     };
+```
+
+```kotlin
+// kotlin
+private val callback = object : PermisionInterface {
+        override fun onResponse(refusePermissions: ArrayList<String>) {
+            if (refusePermissions!=null) {
+                Toast.makeText(baseContext,
+                        "Have to allow all permissions",
+                        Toast.LENGTH_SHORT).show()
+                Handler().postDelayed({ finish() }, 2000)
+                }
+        } 
+    }
 ```
 
 Invocamos nuestro servicio, pasando los permisos y el objeto callback:
 
 ```java
-new PermissionService(this).request(
-                new String[]{ACCESS_FINE_LOCATION, CAMERA},
-                callback);
+// java
+new PermissionService(this).request(callback);
+```
+
+```kotlin
+// kotlin
+PermissionService(this).request(callback)
 ```
 
 **Recordar** sobreescribir el método onRequestPermissions:
 
 ```java
+// java
 @Override
 public void onRequestPermissionsResult(int requestCode, 
             @NonNull String[] permissions, @NonNull int[] grantResults) {
             callback.handler(permissions, grantResults);
+    }
+```
+
+```kotlin
+// kotlin
+override fun onRequestPermissionsResult(requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray) {
+        PermissionService.handler(callback,permissions, grantResults)
     }
 ```
 

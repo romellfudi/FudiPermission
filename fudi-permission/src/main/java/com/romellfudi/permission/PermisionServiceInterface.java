@@ -8,4 +8,5 @@ package com.romellfudi.permission;
 
 public interface PermisionServiceInterface {
     int getBuildSDK();
+    String[] getPermissions();
 }

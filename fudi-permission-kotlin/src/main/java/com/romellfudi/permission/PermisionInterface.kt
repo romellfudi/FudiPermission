@@ -10,6 +10,5 @@ import java.util.ArrayList
  */
 
 interface PermisionInterface {
-    fun onRefuse(refusePermissions: ArrayList<String>)
-    fun onFinally()
+    fun onResponse(refusePermissions: ArrayList<String>?)
 }

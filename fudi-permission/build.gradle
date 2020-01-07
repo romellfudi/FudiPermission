@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://romellfudi.github.io/FudiPermission'
     gitUrl = 'https://romellfudi.github.io/FudiPermission.git'
 
-    libraryVersion = '1.0.a'
+    libraryVersion = '2.0.a'
 
     developerId = 'romellfudi'
     developerName = 'Romell Dominguez'
@@ -31,7 +31,7 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 1
+        versionCode 2
         versionName "1.0"
     }
     buildTypes {
@@ -56,14 +56,14 @@ dependencies {
 }
 
 task deleteJar(type: Delete) {
-    delete 'libs/fudi-permission-1.0.a.jar'
+    delete 'libs/fudi-permission-2.0.a.jar'
 }
 
 task createJar(type: Copy) {
     from('build/intermediates/bundles/debug/') // release
     into('../app/libs')
     include('classes.jar')
-    rename('classes.jar', 'fudi-permission-1.0.a.jar')
+    rename('classes.jar', 'fudi-permission-2.0.a.jar')
 }
 
 createJar.dependsOn(deleteJar, build)

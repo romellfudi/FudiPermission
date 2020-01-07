@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.preference.PreferenceManager
-import java.util.*
 
 /**
  * @author Romell Dominguez
@@ -30,9 +29,12 @@ class PermissionService(var context: Activity) : PermisionServiceInterface {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun request(permissionsArray: Array<String>, callback: Callback) {
+    fun request(callback: Callback) {
         if (permisionServiceInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
             val permissions = ArrayList<String>()
+            val info = context.packageManager
+                    .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
+            val permissionsArray = info.requestedPermissions
             for (perm in permissionsArray)
                 permissions.add(perm)
             permissionsToRequest = missAllowPermissions(permissions)
@@ -48,11 +50,11 @@ class PermissionService(var context: Activity) : PermisionServiceInterface {
                     sharedPreferences.edit().putBoolean(perm, false)
                     sharedPreferences.edit().apply()
                 }
-                callback.onRefuse(permissionsRejected!!)
+                callback.onResponse(permissionsRejected!!)
             } else
-                callback.onFinally()
+                callback.onResponse(null)
         } else
-            callback.onFinally()
+            callback.onResponse(null)
 
     }
 
@@ -89,13 +91,13 @@ class PermissionService(var context: Activity) : PermisionServiceInterface {
         fun handler(callback: Callback, grantResults: IntArray, permissions: Array<String>) {
             val permissionsRejected = ArrayList<String>()
             (1..grantResults.size).forEach {
-                if (grantResults[it-1] != 0)
-                    permissionsRejected.add(permissions[it-1])
+                if (grantResults[it - 1] != 0)
+                    permissionsRejected.add(permissions[it - 1])
             }
             if (permissionsRejected.size > 0)
-                callback.onRefuse(permissionsRejected)
+                callback.onResponse(permissionsRejected)
             else
-                callback.onFinally()
+                callback.onResponse(null)
         }
     }
 
