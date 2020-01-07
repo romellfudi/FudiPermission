@@ -23,6 +23,12 @@ class PermissionService(var context: Activity) : PermisionServiceInterface {
     override val buildSDK: Int
         get() = Build.VERSION.SDK_INT
 
+    override fun getPermissions():Array<String> {
+         val info = context.packageManager
+                .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
+        return info.requestedPermissions;
+    }
+
     init {
         permisionServiceInterface = this
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
@@ -32,9 +38,7 @@ class PermissionService(var context: Activity) : PermisionServiceInterface {
     fun request(callback: Callback) {
         if (permisionServiceInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
             val permissions = ArrayList<String>()
-            val info = context.packageManager
-                    .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
-            val permissionsArray = info.requestedPermissions
+            val permissionsArray = permisionServiceInterface!!.getPermissions()
             for (perm in permissionsArray)
                 permissions.add(perm)
             permissionsToRequest = missAllowPermissions(permissions)

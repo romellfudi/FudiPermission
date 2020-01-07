@@ -58,6 +58,7 @@ class FudiPermisionTest {
         permissionService.permisionServiceInterface = permisionServiceInterface
         i = 0
         every { permisionServiceInterface.buildSDK } returns Build.VERSION_CODES.M
+        every { permisionServiceInterface.getPermissions() } returns permissions
         every { activity.checkSelfPermission(any()) } returns PackageManager.PERMISSION_DENIED
         every { sharedPreferences.getBoolean(any(), any()) } returns true
         every { sharedPreferences.edit() } returns editor
@@ -67,7 +68,7 @@ class FudiPermisionTest {
     fun requestLessM() {
         every { permisionServiceInterface.buildSDK } returns Build.VERSION_CODES.M - 1
         permissionService.request(callback)
-        verify { callback.onResponse(capture(refusePemissions)) }
+        verify { callback.onResponse(null) }
     }
 
     companion object {
@@ -84,7 +85,7 @@ class FudiPermisionTest {
         }
         permissionService.request(callback)
 
-        verify { callback.onResponse(capture(refusePemissions)) }
+        verify { callback.onResponse(null) }
     }
 
     @Test

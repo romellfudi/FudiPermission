@@ -8,4 +8,5 @@ package com.romellfudi.permission
 
 interface PermisionServiceInterface {
     val buildSDK: Int
+    fun getPermissions():Array<String>
 }
