@@ -4,7 +4,7 @@
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/romellfudi/FudiPermission/blob/master/LICENSE)
 [![](https://github.com/romellfudi/FudiPermission/workflows/Android%20CI/badge.svg)](https://github.com/romellfudi/FudiPermission/actions)
-[![Bintray](https://img.shields.io/bintray/v/romllz489/maven/fudi-annotation.svg)](https://bintray.com/romllz489/maven/fudi-permission)
+[![Bintray](https://img.shields.io/bintray/v/romllz489/maven/fudi-permission.svg)](https://bintray.com/romllz489/maven/fudi-permission)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Fudi%20Permisions-green.svg?style=flat )]( https://android-arsenal.com/details/1/7105 )
 [![Jitpack](https://jitpack.io/v/romellfudi/FudiPermission.svg)](https://jitpack.io/#romellfudi/FudiPermission)
 [![CircleCi](https://img.shields.io/circleci/project/github/romellfudi/FudiPermission.svg)](https://circleci.com/gh/romellfudi/FudiPermission/tree/master)
@@ -13,7 +13,7 @@
 ### by Romell Domínguez
 [![](snapshot/icono.png)](https://www.romellfudi.com/)
 
-`latestVersion` es 2.0.a
+`latestVersion` es [ ![Download](https://api.bintray.com/packages/romllz489/maven/fudi-permission/images/download.svg) ](https://bintray.com/romllz489/maven/fudi-permission/_latestVersion)
 
 Agregar en tu archivo `build.gradle` del proyecto Android:
 
