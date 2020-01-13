@@ -4,7 +4,7 @@
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/romellfudi/FudiPermission/blob/master/LICENSE)
 [![](https://github.com/romellfudi/FudiPermission/workflows/Android%20CI/badge.svg)](https://github.com/romellfudi/FudiPermission/actions)
-[![Bintray](https://img.shields.io/bintray/v/romllz489/maven/fudi-permission.svg)](https://bintray.com/romllz489/maven/fudi-permission)
+[![Bintray](https://img.shields.io/bintray/v/romllz489/maven/fudi-permission.svg)](https://bintray.com/romllz489/maven/fudi-permission)  
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Fudi%20Permisions-green.svg?style=flat )]( https://android-arsenal.com/details/1/7105 )
 [![Jitpack](https://jitpack.io/v/romellfudi/FudiPermission.svg)](https://jitpack.io/#romellfudi/FudiPermission)
 [![CircleCi](https://img.shields.io/circleci/project/github/romellfudi/FudiPermission.svg)](https://circleci.com/gh/romellfudi/FudiPermission/tree/master)
@@ -23,7 +23,7 @@ repositories {
 }
 dependencies {
     implementation 'com.romellfudi.permission:fudi-permission:${latestVersion}'
-
+    implementation 'com.romellfudi.permission:fudi-permission-kotlin:${latestVersion}'
 }
 ```
 
@@ -116,9 +116,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-```
-
-**2018, July**
+``` 
 
 <style>
 img[src*='#center'] { 
