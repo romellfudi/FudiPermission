@@ -73,7 +73,7 @@ class PermissionService(var context: Activity) : PermissionServiceInterface {
         var requestCode = 999
 
         fun handler(grantResults: IntArray, permissions: Array<String>, callback: Callback) {
-            val permissionsRejected = ArrayList<String>()
+            val permissionsRejected = mutableListOf<String>()
             (1..grantResults.size).filter { (grantResults[it - 1] != 0) }.forEach {
                 permissionsRejected.add(permissions[it - 1])
             }
