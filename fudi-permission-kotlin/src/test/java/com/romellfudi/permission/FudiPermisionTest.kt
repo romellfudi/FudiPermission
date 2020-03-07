@@ -43,7 +43,7 @@ class FudiPermisionTest {
     internal var editor: SharedPreferences.Editor = mock()
 
     @MockK
-    lateinit var permisionServiceInterface: PermisionServiceInterface
+    lateinit var permissionServiceInterface: PermissionServiceInterface
 
     val refusePemissions = slot<ArrayList<String>>()
 
@@ -55,10 +55,10 @@ class FudiPermisionTest {
         mockkStatic(PreferenceManager::class)
         every { PreferenceManager.getDefaultSharedPreferences(any()) } returns sharedPreferences
         permissionService = PermissionService(activity)
-        permissionService.permisionServiceInterface = permisionServiceInterface
+        permissionService.mInterface = permissionServiceInterface
         i = 0
-        every { permisionServiceInterface.buildSDK } returns Build.VERSION_CODES.M
-        every { permisionServiceInterface.getPermissions() } returns permissions
+        every { permissionServiceInterface.buildSDK } returns Build.VERSION_CODES.M
+        every { permissionServiceInterface.getPermissions() } returns permissions
         every { activity.checkSelfPermission(any()) } returns PackageManager.PERMISSION_DENIED
         every { sharedPreferences.getBoolean(any(), any()) } returns true
         every { sharedPreferences.edit() } returns editor
@@ -66,7 +66,7 @@ class FudiPermisionTest {
 
     @Test
     fun requestLessM() {
-        every { permisionServiceInterface.buildSDK } returns Build.VERSION_CODES.M - 1
+        every { permissionServiceInterface.buildSDK } returns Build.VERSION_CODES.M - 1
         permissionService.request(callback)
         verify { callback.onResponse(null) }
     }
@@ -81,7 +81,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(callback, intArrayOf(0, 0, 0), permissions)
+                PermissionService.handler(intArrayOf(0, 0, 0), permissions, callback)
         }
         permissionService.request(callback)
 
@@ -94,7 +94,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(callback, intArrayOf(0, 1, 0), permissions)
+                PermissionService.handler(intArrayOf(0, 1, 0), permissions, callback)
         }
         permissionService.request(callback)
         verify { callback.onResponse(capture(refusePemissions)) }
@@ -110,7 +110,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(callback, intArrayOf(1, 1, 1), permissions)
+                PermissionService.handler(intArrayOf(1, 1, 1), permissions, callback)
         }
         permissionService.request(callback)
         verify { callback.onResponse(capture(refusePemissions)) }

@@ -6,7 +6,7 @@ package com.romellfudi.permission
  * @date 10/4/18
  */
 
-interface PermisionServiceInterface {
+interface PermissionServiceInterface {
     val buildSDK: Int
     fun getPermissions():Array<String>
 }

@@ -9,6 +9,6 @@ import java.util.ArrayList
  * @since 1.0
  */
 
-interface PermisionInterface {
+interface PermissionInterface {
     fun onResponse(refusePermissions: ArrayList<String>?)
 }
