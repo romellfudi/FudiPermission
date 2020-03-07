@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.romellfudi.permission.PermissionService
-import java.util.*
 
 /**
  *
@@ -21,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private val callback = object : PermissionService.Callback() {
-        override fun onResponse(refusePermissions: ArrayList<String>?) {
+        override fun onResponse(refusePermissions: List<String>?) {
             if (refusePermissions != null) {
                 val snackBar = Snackbar.make(findViewById(android.R.id.content),
                         "Have to allow all permissions", Snackbar.LENGTH_SHORT)

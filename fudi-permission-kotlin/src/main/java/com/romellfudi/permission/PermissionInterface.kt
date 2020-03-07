@@ -1,7 +1,5 @@
 package com.romellfudi.permission
 
-import java.util.ArrayList
-
 /**
  *
  * @author Romell Dominguez
@@ -10,5 +8,5 @@ import java.util.ArrayList
  */
 
 interface PermissionInterface {
-    fun onResponse(refusePermissions: ArrayList<String>?)
+    fun onResponse(refusePermissions: List<String>?)
 }

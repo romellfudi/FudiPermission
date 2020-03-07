@@ -16,8 +16,6 @@ import android.preference.PreferenceManager
 class PermissionService(var context: Activity) : PermissionServiceInterface {
 
     private val sharedPreferences: SharedPreferences
-    private var permissionsToRequest: ArrayList<String>? = null
-    private var permissionsRejected: ArrayList<String>? = null
     var mInterface: PermissionServiceInterface? = null
 
     override val buildSDK: Int
@@ -35,23 +33,28 @@ class PermissionService(var context: Activity) : PermissionServiceInterface {
     @TargetApi(Build.VERSION_CODES.M)
     fun request(callback: Callback) =
             if (mInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
-                val permissions = mInterface!!.getPermissions().toCollection(ArrayList())
-                permissionsToRequest = missAllowPermissions(permissions)
-                permissionsRejected = blockPermissions(permissions)
+                val permissions = mInterface!!.getPermissions()
+                val (permissionsToRequest, permissionsRejected) =
+                        permissions.filter { !hasPermission(it) }
+                                .partition { sharedPreferences.getBoolean(it, true) }
                 when {
-                    permissionsToRequest!!.size > 0 -> {
-                        context.requestPermissions(permissionsToRequest!!.toTypedArray(), requestCode)
+                    permissionsToRequest.isNotEmpty() -> {
+                        context.requestPermissions(permissionsToRequest.toTypedArray(), requestCode)
                         permissions.forEach {
-                            sharedPreferences.edit().putBoolean(it, false)
-                            sharedPreferences.edit().apply()
+                            with(sharedPreferences.edit()) {
+                                putBoolean(it, false)
+                                apply()
+                            }
                         }
                     }
-                    permissionsRejected!!.size > 0 -> {
-                        permissionsRejected!!.forEach {
-                            sharedPreferences.edit().putBoolean(it, false)
-                            sharedPreferences.edit().apply()
+                    permissionsRejected.isNotEmpty() -> {
+                        permissionsRejected.forEach {
+                            with(sharedPreferences.edit()) {
+                                putBoolean(it, false)
+                                apply()
+                            }
                         }
-                        callback.onResponse(permissionsRejected!!)
+                        callback.onResponse(permissionsRejected)
                     }
                     else -> callback.onResponse(null)
                 }
@@ -63,16 +66,6 @@ class PermissionService(var context: Activity) : PermissionServiceInterface {
             if (mInterface?.buildSDK!! >= Build.VERSION_CODES.M)
                 context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
             else true
-
-    private fun missAllowPermissions(permissions: ArrayList<String>) = permissions.filter {
-        !hasPermission(it) && sharedPreferences.getBoolean(it, true)
-    } as ArrayList<String>
-
-
-    private fun blockPermissions(permissions: ArrayList<String>) = permissions.filter {
-        !hasPermission(it) && !sharedPreferences.getBoolean(it, true)
-    } as ArrayList<String>
-
 
     abstract class Callback : PermissionInterface
 
