@@ -22,16 +22,15 @@ repositories {
     jcenter()
 }
 dependencies {
-    compile 'com.romellfudi.permission:fudi-permission:${latestVersion}'
-    compile 'com.romellfudi.permission:fudi-permission-kotlin:${latestVersion}'
+    implementation 'com.romellfudi.permission:fudi-permission:${latestVersion}'
+    implementation 'com.romellfudi.permission:fudi-permission-kotlin:${latestVersion}'
 
 }
 ```
 
-
 First Android need confirmation by user from version 6 , its fot that create a sample how build a Adroid permission library (jar or aar file):
 
-Permissions that you have deploy [*check needPermissions file*](needPermissions.txt):
+Before adding the permissions which you need, [*check needPermissions file*](needPermissions.txt):
  
 ## Import library:
  
@@ -42,7 +41,6 @@ dependencies {
      implementation 'com.romellfudi.permission:fudi-permission:2.0.a' 
 }
 ```
-
 
 ## How use 
 
