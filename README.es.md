@@ -29,7 +29,7 @@ dependencies {
 
 Primero Android a partir de la versión 6 necesita consultarle al usuario el permiso de componentes y servisios , acá veremos cómo construir una libreria Android para permmisos (jar or aar file):
 
-Los permisos necesarios a consultar los listo (*ver needPermissions.txt*):
+Los permisos necesarios a consultar los listo [*ver archivo needPermissions*](needPermissions.txt):
 
 ## Import library:
  
