@@ -34,8 +34,10 @@ class ActivityModule(var mainView: MainContract.MainView) {
             if (refusePermissions != null) {
                 mainView.showError("Have to allow all permissions")
                 Handler().postDelayed({ mainView.finish() }, 1500)
-            } else
+            } else {
                 mainView.initController()
+                mainView.showOK()
+            }
         }
     }
 

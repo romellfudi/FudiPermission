@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
 
     override fun initController() {
         text.text = "ToDo"
-        showOK()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
@@ -54,16 +53,16 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
             PermissionService.handler(grantResults, permissions, callback)
 
     override fun showOK() {
-        val snackBar = Snackbar.make(view,    "ready", Snackbar.LENGTH_SHORT)
+        val snackBar = Snackbar.make(view, "ready", Snackbar.LENGTH_SHORT)
         snackBar.view.setBackgroundColor(
-                ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                ContextCompat.getColor(activity, R.color.colorPrimary))
         snackBar.show()
     }
 
     override fun showError(error: String) {
         val snackBar = Snackbar.make(view, error, Snackbar.LENGTH_SHORT)
         snackBar.view.setBackgroundColor(ContextCompat
-                .getColor(applicationContext, R.color.colorAccent))
+                .getColor(activity, R.color.colorAccent))
         snackBar.show()
     }
 }
