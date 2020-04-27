@@ -32,7 +32,7 @@ class ActivityModule(var mainView: MainContract.MainView) {
     fun provideCallback(): PermissionService.Callback = object : PermissionService.Callback() {
         override fun onResponse(refusePermissions: List<String>?) {
             if (refusePermissions != null) {
-                mainView.showError("Have to allow all permissions")
+                mainView.showError("You must allow all permissions, to continue")
                 Handler().postDelayed({ mainView.finish() }, 1500)
             } else {
                 mainView.initController()

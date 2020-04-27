@@ -9,6 +9,7 @@ import android.view.View
 import com.romellfudi.permission.PermissionService
 import com.romellfudi.permissionservice.R
 import com.romellfudi.permissionservice.ui.main.ActivityModule
+import com.romellfudi.permissionservice.ui.main.component.ActivityComponent
 import com.romellfudi.permissionservice.ui.main.component.DaggerActivityComponent
 import com.romellfudi.permissionservice.ui.main.presenter.MainContract
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,10 +36,14 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
     @Inject
     lateinit var permissionService: PermissionService
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    private val activityComponent: ActivityComponent by lazy {
         DaggerActivityComponent.builder()
                 .activityModule(ActivityModule(this))
-                .build().inject(this)
+                .build()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        activityComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         permissionService.request(callback)
