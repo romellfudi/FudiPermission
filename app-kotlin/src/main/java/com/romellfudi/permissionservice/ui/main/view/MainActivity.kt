@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) =
-            PermissionService.handler(grantResults, permissions, callback)
+            PermissionService.handler(callback, grantResults, permissions)
 
     override fun showOK() {
         val snackBar = Snackbar.make(view, "ready", Snackbar.LENGTH_SHORT)

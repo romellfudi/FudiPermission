@@ -23,7 +23,7 @@ repositories {
 }
 dependencies {
     implementation 'com.romellfudi.permission:fudi-permission:${latestVersion}'
-    implementation 'com.romellfudi.permission:fudi-permission-kotlin:${latestVersion}'
+    implementation 'com.romellfudi.permission:kotlin-fudi-permission:${latestVersion}'
 
 }
 ```
@@ -32,16 +32,6 @@ First Android need confirmation by user from version 6 , its fot that create a s
 
 Before adding the permissions which you need, [*check needPermissions file*](needPermissions.txt):
  
-## Import library:
- 
-add dependency into app project, use only one to reject conflict:
-
-```gradle
-dependencies {
-     implementation 'com.romellfudi.permission:fudi-permission:2.0.a' 
-}
-```
-
 ## How use 
 
 Build an callback object to catch the rsponse for user. If have 1 or more refuse permissions, *onRefuse method* activate, otherwise *onFinally*
@@ -97,7 +87,7 @@ public void onRequestPermissionsResult(int requestCode,
 // kotlin
 override fun onRequestPermissionsResult(requestCode: Int,
         permissions: Array<String>, grantResults: IntArray) {
-        PermissionService.handler(callback,permissions, grantResults)
+        PermissionService.handler(callback, grantResults, permissions)
     }
 ```
 
