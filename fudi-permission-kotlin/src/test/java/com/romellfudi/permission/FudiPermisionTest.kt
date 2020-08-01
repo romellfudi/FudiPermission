@@ -81,7 +81,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(intArrayOf(0, 0, 0), permissions, callback)
+                PermissionService.handler(callback, intArrayOf(0, 0, 0), permissions)
         }
         permissionService.request(callback)
 
@@ -94,7 +94,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(intArrayOf(0, 1, 0), permissions, callback)
+                PermissionService.handler(callback, intArrayOf(0, 1, 0), permissions)
         }
         permissionService.request(callback)
         verify { callback.onResponse(capture(refusePemissions)) }
@@ -110,7 +110,7 @@ class FudiPermisionTest {
             i++
             if (i == permissions.size)
             // 0 accepted, 1 refuse
-                PermissionService.handler(intArrayOf(1, 1, 1), permissions, callback)
+                PermissionService.handler(callback, intArrayOf(1, 1, 1), permissions)
         }
         permissionService.request(callback)
         verify { callback.onResponse(capture(refusePemissions)) }
