@@ -30,8 +30,8 @@ class ActivityModule(var mainView: MainContract.MainView) {
     @Provides
     @ActivityScope
     fun provideCallback(): PermissionService.Callback = object : PermissionService.Callback() {
-        override fun onResponse(refusePermissions: List<String>?) {
-            if (refusePermissions != null) {
+        override fun onResponse(refusePermissions: ArrayList<String>?) {
+            if (!refusePermissions.isNullOrEmpty()) {
                 mainView.showError("You must allow all permissions, to continue")
                 Handler().postDelayed({ mainView.finish() }, 1500)
             } else {
