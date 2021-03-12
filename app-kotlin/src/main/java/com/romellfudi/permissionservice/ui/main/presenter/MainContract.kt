@@ -11,11 +11,8 @@ import android.view.View
 interface MainContract {
 
     interface MainView {
-        fun initController()
-        fun finish()
-        var view: View
+        val view: View
         fun showOK()
         fun showError(error: String)
-        var activity: Activity
     }
 }

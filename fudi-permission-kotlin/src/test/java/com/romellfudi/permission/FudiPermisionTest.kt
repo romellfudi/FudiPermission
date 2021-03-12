@@ -54,11 +54,12 @@ class FudiPermisionTest {
         MockKAnnotations.init(this, relaxUnitFun = true)
         mockkStatic(PreferenceManager::class)
         every { PreferenceManager.getDefaultSharedPreferences(any()) } returns sharedPreferences
-        permissionService = PermissionService(activity)
+        permissionService = PermissionService
         permissionService.mInterface = permissionServiceInterface
         i = 0
         every { permissionServiceInterface.buildSDK } returns Build.VERSION_CODES.M
-        every { permissionServiceInterface.getPermissions() } returns permissions
+        every { permissionServiceInterface.getPermissions(activity) } returns permissions
+        every { activity.checkSelfPermission(any()) } returns PackageManager.PERMISSION_DENIED
         every { activity.checkSelfPermission(any()) } returns PackageManager.PERMISSION_DENIED
         every { sharedPreferences.getBoolean(any(), any()) } returns true
         every { sharedPreferences.edit() } returns editor
@@ -67,7 +68,7 @@ class FudiPermisionTest {
     @Test
     fun requestLessM() {
         every { permissionServiceInterface.buildSDK } returns Build.VERSION_CODES.M - 1
-        permissionService.request(callback)
+        permissionService.request(activity,callback)
         verify { callback.onResponse(null) }
     }
 
@@ -83,7 +84,7 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(0, 0, 0), permissions)
         }
-        permissionService.request(callback)
+        permissionService.request(activity,callback)
 
         verify { callback.onResponse(null) }
     }
@@ -96,7 +97,7 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(0, 1, 0), permissions)
         }
-        permissionService.request(callback)
+        permissionService.request(activity,callback)
         verify { callback.onResponse(capture(refusePemissions)) }
 
         val refusePermissions = refusePemissions.captured
@@ -112,7 +113,7 @@ class FudiPermisionTest {
             // 0 accepted, 1 refuse
                 PermissionService.handler(callback, intArrayOf(1, 1, 1), permissions)
         }
-        permissionService.request(callback)
+        permissionService.request(activity,callback)
         verify { callback.onResponse(capture(refusePemissions)) }
 
         val refusePermissions = refusePemissions.captured

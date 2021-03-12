@@ -13,75 +13,48 @@ import android.preference.PreferenceManager
  * @since 1.0
  */
 
-class PermissionService(var context: Activity) : PermissionServiceInterface {
+object PermissionService : PermissionServiceInterface {
 
-    private val sharedPreferences: SharedPreferences
+    private const val requestCode = 999
+
+    abstract class Callback : PermissionInterface
+
+    private lateinit var sharedPreferences: SharedPreferences
     var mInterface: PermissionServiceInterface? = null
 
     override val buildSDK: Int
         get() = Build.VERSION.SDK_INT
 
-    override fun getPermissions(): Array<String> = context.packageManager
+    override fun getPermissions(context: Activity): Array<String> = context.packageManager
             .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
             .requestedPermissions
 
     init {
         mInterface = this
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context)
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun request(callback: Callback) =
-            if (mInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
-                val permissions = mInterface!!.getPermissions()
-                val (permissionsToRequest, permissionsRejected) =
-                        permissions.filter { !hasPermission(it) }
-                                .partition { sharedPreferences.getBoolean(it, true) }
-                when {
-                    permissionsToRequest.isNotEmpty() -> {
-                        context.requestPermissions(permissionsToRequest.toTypedArray(), requestCode)
-                        permissions.forEach {
-                            with(sharedPreferences.edit()) {
-                                putBoolean(it, false)
-                                apply()
-                            }
-                        }
-                    }
-                    permissionsRejected.isNotEmpty() -> {
-                        permissionsRejected.forEach {
-                            with(sharedPreferences.edit()) {
-                                putBoolean(it, false)
-                                apply()
-                            }
-                        }
-                        callback.onResponse(permissionsRejected)
-                    }
-                    else -> callback.onResponse(null)
-                }
-            } else
-                callback.onResponse(null)
+    fun request(context: Activity, callback: Callback) =
+            if(mInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
+                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                val permissions = mInterface?.getPermissions(context)
+                setValues(permissions)
+                context.requestPermissions(permissions, requestCode)
+            } else callback.onResponse(null)
 
-    @TargetApi(Build.VERSION_CODES.M)
-    private fun hasPermission(permission: String): Boolean =
-            if (mInterface?.buildSDK!! >= Build.VERSION_CODES.M)
-                context.checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED
-            else true
-
-    abstract class Callback : PermissionInterface
-
-    companion object {
-        var requestCode = 999
-
-        fun handler( callback: Callback,grantResults: IntArray, permissions: Array<String> ) {
-            val permissionsRejected = mutableListOf<String>()
-            (1..grantResults.size).filter { (grantResults[it - 1] != 0) }.forEach {
-                permissionsRejected.add(permissions[it - 1])
-            }
-            when {
-                permissionsRejected.size > 0 -> callback.onResponse(permissionsRejected)
-                else -> callback.onResponse(null)
-            }
+    private fun setValues(permissionsRejected: Array<String>?) = permissionsRejected?.forEach {
+        with(sharedPreferences.edit()) {
+            putBoolean(it, false)
+            apply()
         }
+    }
+
+    fun handler(callback: Callback, grantResults: IntArray, permissions: Array<String>) {
+        val permissionsRejected = mutableListOf<String>()
+        (1..grantResults.size).filter { grantResults[it - 1] != 0 }
+                .forEach { permissionsRejected.add(permissions[it - 1]) }
+        if (permissionsRejected.size > 0) callback.onResponse(permissionsRejected)
+        else callback.onResponse(null)
     }
 
 }

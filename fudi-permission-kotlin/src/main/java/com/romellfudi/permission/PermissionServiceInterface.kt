@@ -1,5 +1,7 @@
 package com.romellfudi.permission
 
+import android.app.Activity
+
 /**
  * @version 1.0
  * @autor Romell Domínguez
@@ -8,5 +10,5 @@ package com.romellfudi.permission
 
 interface PermissionServiceInterface {
     val buildSDK: Int
-    fun getPermissions():Array<String>
+    fun getPermissions(context: Activity): Array<String>
 }

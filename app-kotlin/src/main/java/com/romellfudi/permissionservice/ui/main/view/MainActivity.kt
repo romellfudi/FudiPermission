@@ -24,11 +24,8 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), MainContract.MainView {
 
-    override var view: View
+    override val view: View
         get() = findViewById(android.R.id.content)
-        set(_) = Unit
-
-    override var activity: Activity = this
 
     @Inject
     lateinit var callback: PermissionService.Callback
@@ -46,28 +43,24 @@ class MainActivity : AppCompatActivity(), MainContract.MainView {
         activityComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        permissionService.request(callback)
-    }
-
-    override fun initController() {
-        text.text = "ToDo"
+        askBtn.setOnClickListener { permissionService.request(this,callback) }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) =
             PermissionService.handler(callback, grantResults, permissions)
 
-    override fun showOK() {
-        val snackBar = Snackbar.make(view, "ready", Snackbar.LENGTH_SHORT)
-        snackBar.view.setBackgroundColor(
-                ContextCompat.getColor(activity, R.color.colorPrimary))
-        snackBar.show()
-    }
+    override fun showOK() =
+            Snackbar.make(view, "ready", Snackbar.LENGTH_SHORT).run {
+                view.setBackgroundColor(
+                        ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
+                show()
+            }
 
-    override fun showError(error: String) {
-        val snackBar = Snackbar.make(view, error, Snackbar.LENGTH_SHORT)
-        snackBar.view.setBackgroundColor(ContextCompat
-                .getColor(activity, R.color.colorAccent))
-        snackBar.show()
-    }
+    override fun showError(error: String) =
+            Snackbar.make(view, error, Snackbar.LENGTH_SHORT).run {
+                view.setBackgroundColor(
+                        ContextCompat.getColor(this@MainActivity, R.color.colorAccent))
+                show()
+            }
 }
