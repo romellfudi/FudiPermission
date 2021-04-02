@@ -1,6 +1,5 @@
-package com.romellfudi.permissionservice.ui.main.presenter
+package com.romellfudi.permissionservice.presenter
 
-import android.app.Activity
 import android.view.View
 
 /**
