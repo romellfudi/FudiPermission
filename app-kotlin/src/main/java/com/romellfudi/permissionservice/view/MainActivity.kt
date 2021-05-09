@@ -1,10 +1,10 @@
 package com.romellfudi.permissionservice.view
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.romellfudi.permission.PermissionService
 import com.romellfudi.permissionservice.R
 import com.romellfudi.permissionservice.presenter.MainContract
