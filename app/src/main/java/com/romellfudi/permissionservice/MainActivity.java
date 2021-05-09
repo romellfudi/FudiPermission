@@ -2,12 +2,13 @@ package com.romellfudi.permissionservice;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.romellfudi.permission.PermissionService;
 
 import java.util.ArrayList;
@@ -40,13 +41,14 @@ public class MainActivity extends AppCompatActivity {
         textView.setText("ToDo");
         Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content),
                 "ready", Snackbar.LENGTH_SHORT);
-        snackbar.getView().setBackgroundColor(ContextCompat
-                .getColor(getApplicationContext(), R.color.colorPrimary));
+        snackbar.getView().setBackgroundColor(
+                ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
         snackbar.show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         // In case have other permissions flow task
 //        if (requestCode == PermissionService.requestCode) {
