@@ -24,6 +24,13 @@ android {
             dirs 'libs'
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavor = variant.name
+            outputFileName = "fudiPermission-app-${flavor}.apk"
+        }
+    }
 }
 dependencies {
     implementation project(':fudi-permission-kotlin')
