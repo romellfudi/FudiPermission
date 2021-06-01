@@ -24,12 +24,15 @@ val appModule = module {
 
     single<PermissionService.Callback> { (mainView: MainContract.MainView) ->
         object : PermissionService.Callback() {
-            override fun onResponse(refusePermissions: List<String>?) =
-                    if (!refusePermissions.isNullOrEmpty()) {
-                        mainView.showError("You must allow all permissions, to continue")
-                    } else {
-                        mainView.showOK()
+            override fun onResponse(refusePermissions: List<String>?) {
+                refusePermissions?.apply {
+                    if (isNotEmpty()) {
+                        mainView.showError("You must allow all ${toString()}, to continue")
+                        return@onResponse
                     }
+                }
+                mainView.showOK()
+            }
         }
     }
 

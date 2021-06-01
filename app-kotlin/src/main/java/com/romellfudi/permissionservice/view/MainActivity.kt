@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), MainContract.MainView, KoinComponent {
     override val view: View
         get() = findViewById(android.R.id.content)
 
+    lateinit var snack: Snackbar
+
     private val callback: PermissionService.Callback
             by inject { parametersOf(this) }
 
@@ -34,21 +36,29 @@ class MainActivity : AppCompatActivity(), MainContract.MainView, KoinComponent {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         askBtn.setOnClickListener { permissionService.request(this, callback) }
+        snack = Snackbar.make(view, "", Snackbar.LENGTH_SHORT)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) =
-            PermissionService.handler(callback, grantResults, permissions)
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) = permissionService.handler(callback, grantResults, permissions)
 
-    override fun showOK() = Snackbar.make(view, "ready", Snackbar.LENGTH_SHORT).run {
-                view.setBackgroundColor(
-                        ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
-                show()
-            }
+    override fun showOK() = snack.run {
+        setText("Ready!!!")
+        view.setBackgroundColor(
+            ContextCompat.getColor(this@MainActivity, R.color.colorPrimary)
+        )
+        duration =3000
+        show()
+    }
 
-    override fun showError(error: String) = Snackbar.make(view, error, Snackbar.LENGTH_SHORT).run {
-                view.setBackgroundColor(
-                        ContextCompat.getColor(this@MainActivity, R.color.colorAccent))
-                show()
-            }
+    override fun showError(error: String) = snack.run {
+        setText(error)
+        view.setBackgroundColor(
+            ContextCompat.getColor(this@MainActivity, R.color.colorAccent)
+        )
+        duration =3000
+        show()
+    }
 }
