@@ -26,8 +26,8 @@ object PermissionService : PermissionServiceInterface {
         get() = Build.VERSION.SDK_INT
 
     override fun getPermissions(context: Activity): Array<String> = context.packageManager
-            .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
-            .requestedPermissions
+        .getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS)
+        .requestedPermissions
 
     init {
         mInterface = this
@@ -35,12 +35,12 @@ object PermissionService : PermissionServiceInterface {
 
     @TargetApi(Build.VERSION_CODES.M)
     fun request(context: Activity, callback: Callback) =
-            if(mInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
-                sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                val permissions = mInterface?.getPermissions(context)
-                setValues(permissions)
-                context.requestPermissions(permissions, requestCode)
-            } else callback.onResponse(null)
+        if (mInterface?.buildSDK!! >= Build.VERSION_CODES.M) {
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val permissions = mInterface?.getPermissions(context)
+            setValues(permissions)
+            context.requestPermissions(permissions, requestCode)
+        } else callback.onResponse(null)
 
     private fun setValues(permissionsRejected: Array<String>?) = permissionsRejected?.forEach {
         with(sharedPreferences.edit()) {
@@ -52,9 +52,8 @@ object PermissionService : PermissionServiceInterface {
     fun handler(callback: Callback, grantResults: IntArray, permissions: Array<String>) {
         val permissionsRejected = mutableListOf<String>()
         (1..grantResults.size).filter { grantResults[it - 1] != 0 }
-                .forEach { permissionsRejected.add(permissions[it - 1]) }
-        if (permissionsRejected.size > 0) callback.onResponse(permissionsRejected)
-        else callback.onResponse(null)
+            .forEach { permissionsRejected.add(permissions[it - 1]) }
+        callback.onResponse(if (permissionsRejected.isEmpty()) null else permissionsRejected)
     }
 
 }

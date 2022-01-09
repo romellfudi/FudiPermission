@@ -25,15 +25,12 @@
 
 Add the following in your app's `build.gradle` file:
 
-```groovy
-repositories {
-    jcenter()
-}
-dependencies {
-    implementation 'com.romellfudi.permission:fudi-permission:${latestVersion}'
-    implementation 'com.romellfudi.permission:kotlin-fudi-permission:${kotlinLatestVersion}'
-}
-```
+| Repository | implementation | Status |
+| :------: | ------ | :------: |
+| jcenter() | 'com.romellfudi.permission:fudi-permission:2.0.a' | `DEPRECATED` |
+| jcenter() | 'com.romellfudi.permission:kotlin-fudi-permission:2.0.a' | `DEPRECATED` |
+| maven { url `https://jitpack.io` } | 'com.github.romellfudi.FudiPermission:fudi-permission:2.0.b' | `READY` |
+| maven { url `https://jitpack.io` } | 'com.github.romellfudi.FudiPermission:kotlin-fudi-permission:2.0.b' | `READY` |
 
 First Android need confirmation by user from version 6 , its fot that create a sample how build a Adroid permission library (jar or aar file):
 
