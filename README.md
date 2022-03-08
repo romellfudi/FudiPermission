@@ -1,4 +1,4 @@
-# Fudi Permissions quickly
+# Fudi Permissions quickly for Android
 
 [![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg?logo=android)](https://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat&logo=android)](https://android-arsenal.com/api?level=23)
