@@ -1,3 +1,6 @@
+![Gemini_Generated_Image_6sztib6sztib6szt](https://github.com/user-attachments/assets/48996dc5-90ff-4e85-af8f-1f964ce19ca5)
+
+
 # Fudi Permissions quickly for Android
 
 [![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg?logo=android)](https://developer.android.com/index.html)
